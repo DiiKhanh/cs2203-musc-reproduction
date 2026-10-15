@@ -131,10 +131,11 @@ import sys
 from pathlib import Path
 
 subprocess.run(
-    [sys.executable, "-m", "pip", "install", "-q", "--upgrade", "huggingface_hub"],
+    [sys.executable, "-m", "pip", "install", "-q", "huggingface_hub>=0.20,<2"],
     check=True,
 )
 
+import huggingface_hub
 from huggingface_hub import HfApi, hf_hub_download
 
 HF_DATASET_REPO = "micguida1/mvtech_anomaly_detection"
@@ -169,7 +170,9 @@ DATA_SOURCE = f"huggingface:{HF_DATASET_REPO}@{HF_DATASET_REVISION}"
 os.environ["MUSC_DATA_ROOT"] = str(DATA_ROOT)
 
 (RUN_ROOT / "dataset-source.txt").write_text(
-    f"source={DATA_SOURCE}\narchive=mvtec_anomaly_detection.tar.xz\n",
+    f"source={DATA_SOURCE}\n"
+    "archive=mvtec_anomaly_detection.tar.xz\n"
+    f"huggingface_hub={huggingface_hub.__version__}\n",
     encoding="utf-8",
 )
 
@@ -189,9 +192,33 @@ required_paths = [
 for path in required_paths:
     assert path.is_dir(), f"Missing required directory: {path}"
 
-test_images = list((DATA_ROOT / "bottle" / "test").glob("*/*"))
-assert test_images, "No bottle test images were found."
-print(f"Found {len(test_images)} bottle test files.")
+supported_suffixes = {".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff"}
+test_images = sorted(
+    path
+    for path in (DATA_ROOT / "bottle" / "test").glob("*/*")
+    if path.is_file() and path.suffix.lower() in supported_suffixes
+)
+assert len(test_images) == 83, (
+    f"Expected exactly 83 bottle test images, found {len(test_images)}."
+)
+
+missing_masks = []
+for image_path in test_images:
+    defect_type = image_path.parent.name
+    if defect_type == "good":
+        continue
+    expected_mask = (
+        DATA_ROOT
+        / "bottle"
+        / "ground_truth"
+        / defect_type
+        / f"{image_path.stem}_mask.png"
+    )
+    if not expected_mask.is_file():
+        missing_masks.append((image_path, expected_mask))
+
+assert not missing_masks, f"Missing anomaly masks: {missing_masks[:5]}"
+print(f"Verified {len(test_images)} bottle test images and their anomaly masks.")
 ```
 
 The official MVTec AD `bottle` test split should contain 83 images. Stop and inspect the extraction if the count differs.
@@ -218,6 +245,7 @@ import sys
 
 packages = [
     "ftfy==6.1.3",
+    "huggingface_hub>=0.20,<2",
     "openpyxl==3.1.2",
     "timm==0.9.12",
 ]
@@ -231,6 +259,7 @@ The official repository documents PyTorch 2.0.1, torchvision 0.15.2, and CUDA 11
 ```python
 import cv2
 import ftfy
+import huggingface_hub
 import openpyxl
 import platform
 import sklearn
@@ -249,6 +278,7 @@ versions = {
     "gpu": torch.cuda.get_device_name(0),
     "opencv": cv2.__version__,
     "ftfy": ftfy.__version__,
+    "huggingface_hub": huggingface_hub.__version__,
     "openpyxl": openpyxl.__version__,
     "scikit_learn": sklearn.__version__,
     "scikit_image": skimage.__version__,
@@ -311,7 +341,13 @@ if old_line in source:
 elif new_line not in source:
     raise RuntimeError("The expected sys.path line was not found in musc_main.py")
 
-local_package.touch(exist_ok=True)
+package_marker = '\"\"\"Dataset loaders bundled with MuSc.\"\"\"\n'
+if local_package.exists():
+    assert local_package.read_text(encoding="utf-8") == package_marker, (
+        f"Unexpected existing package marker: {local_package}"
+    )
+else:
+    local_package.write_text(package_marker, encoding="utf-8")
 
 diagnostic = subprocess.run(
     [

@@ -10,6 +10,10 @@ and baseline configuration fixed while documenting two Colab compatibility
 changes: local package import precedence and early release of expired CPU/GPU
 objects before metric allocation.
 
+Package dependencies that are not fixed by the Colab runtime are pinned or
+bounded in `requirements-colab.txt`. Every run records the versions actually
+resolved by the runtime.
+
 ## Reproduction scope
 
 - MVTec AD: all 15 categories, with quantitative and qualitative analysis.
@@ -68,11 +72,12 @@ The machine-readable copy is in [`configs/baseline.json`](configs/baseline.json)
 ## Manual setup
 
 ```bash
-git clone https://github.com/xrli-U/MuSc.git
-cd MuSc
-git checkout --detach b76b93da8bd3096a99964a96ae29d46f197a0651
-git apply /path/to/cs2203-musc-reproduction/patches/colab-import-compatibility.patch
-python -m pip install -r /path/to/cs2203-musc-reproduction/requirements-colab.txt
+git clone https://github.com/DiiKhanh/cs2203-musc-reproduction.git
+cd cs2203-musc-reproduction
+git clone https://github.com/xrli-U/MuSc.git MuSc
+git -C MuSc checkout --detach b76b93da8bd3096a99964a96ae29d46f197a0651
+git -C MuSc apply "$PWD/patches/colab-import-compatibility.patch"
+python3 -m pip install -r requirements-colab.txt
 ```
 
 Do not install an old PyTorch wheel over the Colab runtime. The experiments
@@ -81,18 +86,18 @@ retained Colab's existing PyTorch and recorded the resolved versions in each run
 Run one category with:
 
 ```bash
-scripts/run_category.sh \
-  /path/to/MuSc \
-  /path/to/mvtec_anomaly_detection \
+./scripts/run_category.sh \
+  "$PWD/MuSc" \
+  /absolute/path/to/mvtec_anomaly_detection \
   mvtec_ad \
   bottle \
-  /path/to/output
+  /absolute/path/to/output
 ```
 
 Set the final optional argument to `True` to save visualizations:
 
 ```bash
-scripts/run_category.sh /path/to/MuSc /path/to/data mvtec_ad bottle /path/to/output True
+./scripts/run_category.sh "$PWD/MuSc" /absolute/path/to/data mvtec_ad bottle /absolute/path/to/output True
 ```
 
 ## Dataset responsibility
@@ -114,7 +119,7 @@ feature extractor, LNAMD, MSM, RsCIN, anomaly maps, or metric formulas. The
 patch was needed after Colab exhausted CPU RAM during the full MVTec AD run:
 
 ```bash
-git apply /path/to/cs2203-musc-reproduction/patches/cpu-memory.patch
+git -C MuSc apply "$PWD/patches/cpu-memory.patch"
 ```
 
 The patch was reviewed as a calculation-preserving change, but a matched
@@ -141,7 +146,8 @@ python tools/build_notebook.py \
 
 ## License and attribution
 
+The original files in this repository are released under the [MIT License](LICENSE).
 This repository does not redistribute the MuSc source code, datasets, or model
-weights. The upstream implementation and datasets retain their own licenses and
-terms. The files here document the course project's reproduction procedure and
-minimal compatibility changes.
+weights. The upstream MuSc implementation is also distributed under its own
+[MIT License](https://github.com/xrli-U/MuSc/blob/b76b93da8bd3096a99964a96ae29d46f197a0651/LICENSE),
+and datasets retain their own licenses and terms.

@@ -10,6 +10,10 @@ datasets/
 weights/
 runs/
 outputs/
+output/
+*.xlsx
+*.csv
+*.log
 *.pt
 *.pth
 *.ckpt
