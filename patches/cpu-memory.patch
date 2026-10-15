@@ -1,0 +1,38 @@
+diff --git i/models/musc.py w/models/musc.py
+index 92e91d9..a94213f 100644
+--- i/models/musc.py
++++ w/models/musc.py
+@@ -23,6 +23,7 @@ from tqdm import tqdm
+ import pickle
+ import time
+ import cv2
++import gc
+ 
+ import warnings
+ warnings.filterwarnings("ignore")
+@@ -234,10 +235,15 @@ class MuSc():
+         print('MuSc: {}ms per image'.format((end_time_all-start_time_all)*1000/dataset_num))
+ 
+         anomaly_maps = anomaly_maps.cpu().numpy()
++        # Release feature tensors before allocating flattened metric arrays.
++        del patch_tokens_list, Z_layers, Z, features, patch_tokens
++        del anomaly_maps_l, anomaly_maps_msm, anomaly_maps_iter
++        del image_info, image, input_image, test_dataloader, test_dataset, LNAMD_r
++        gc.collect()
+         torch.cuda.empty_cache()
+ 
+         B = anomaly_maps.shape[0]   # the number of unlabeled test images
+-        ac_score = np.array(anomaly_maps).reshape(B, -1).max(-1)
++        ac_score = anomaly_maps.reshape(B, -1).max(-1)
+         # RsCIN
+         if self.dataset == 'visa':
+             k_score = [1, 8, 9]
+@@ -251,7 +257,7 @@ class MuSc():
+         pr_sp = np.array(scores_cls)
+         gt_sp = np.array(gt_list)
+         gt_px = torch.cat(img_masks, dim=0).numpy().astype(np.int32)
+-        pr_px = np.array(anomaly_maps)
++        pr_px = anomaly_maps
+         image_metric, pixel_metric = compute_metrics(gt_sp, pr_sp, gt_px, pr_px)
+         auroc_sp, f1_sp, ap_sp = image_metric
+         auroc_px, f1_px, ap_px, aupro = pixel_metric

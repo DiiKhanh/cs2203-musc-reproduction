@@ -1,0 +1,20 @@
+diff --git i/datasets/__init__.py w/datasets/__init__.py
+new file mode 100644
+index 0000000..cfb1c93
+--- /dev/null
++++ w/datasets/__init__.py
+@@ -0,0 +1 @@
++"""Dataset loaders bundled with MuSc."""
+diff --git i/examples/musc_main.py w/examples/musc_main.py
+index ed8868c..0f14b11 100644
+--- i/examples/musc_main.py
++++ w/examples/musc_main.py
+@@ -1,7 +1,7 @@
+ import argparse
+ import os
+ import sys
+-sys.path.append(os.getcwd())
++sys.path.insert(0, os.getcwd())
+ from models.musc import MuSc
+ from utils.load_config import load_yaml
+ 
