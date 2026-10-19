@@ -30,7 +30,7 @@ def make_code_cell(language: str, lines: list[str]) -> dict[str, object]:
     }
 
 
-def convert(markdown: str) -> dict[str, object]:
+def convert(markdown: str, notebook_name: str) -> dict[str, object]:
     lines = markdown.splitlines(keepends=True)
     cells: list[dict[str, object]] = []
     markdown_buffer: list[str] = []
@@ -66,7 +66,7 @@ def convert(markdown: str) -> dict[str, object]:
     return {
         "cells": cells,
         "metadata": {
-            "colab": {"name": "E00_mvtec_bottle_smoke_test.ipynb"},
+            "colab": {"name": notebook_name},
             "kernelspec": {
                 "display_name": "Python 3",
                 "language": "python",
@@ -85,7 +85,7 @@ def main() -> None:
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
 
-    notebook = convert(args.input.read_text(encoding="utf-8"))
+    notebook = convert(args.input.read_text(encoding="utf-8"), args.output.name)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(notebook, ensure_ascii=False, indent=1) + "\n",

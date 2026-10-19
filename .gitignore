@@ -11,6 +11,12 @@ weights/
 runs/
 outputs/
 output/
+test-output/
+live-uploads/
+tmp-runs/
+exports/
+prepared/artifacts/
+prepared/manifest.json
 *.xlsx
 *.csv
 *.log
@@ -20,3 +26,7 @@ output/
 *.tar
 *.tar.*
 *.zip
+
+# Retain documentation and schema examples for external prepared bundles
+!prepared/README.md
+!prepared/manifest.example.json
