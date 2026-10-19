@@ -1,0 +1,113 @@
+:root {
+  --musc-ink: #14213d;
+  --musc-muted: #526174;
+  --musc-border: #d9e1e8;
+  --musc-surface: #ffffff;
+  --musc-soft: #f4f7fa;
+  --musc-accent: #1769aa;
+  --musc-danger: #a61b1b;
+  --musc-danger-bg: #fff1f1;
+}
+
+.gradio-container {
+  color: var(--musc-ink);
+  font-size: 17px !important;
+  max-width: 1680px !important;
+  overflow-x: hidden;
+}
+
+#demo-title h1 {
+  color: var(--musc-ink);
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.top-grid {
+  align-items: stretch;
+  display: grid !important;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+}
+
+.research-card {
+  background: var(--musc-surface);
+  border: 1px solid var(--musc-border);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgb(20 33 61 / 6%);
+  padding: 1rem 1.15rem;
+}
+
+.research-card h2 {
+  color: var(--musc-ink);
+  font-size: 1.3rem;
+  margin-top: 0;
+}
+
+.research-card li,
+.input-contract,
+#validation-report,
+#pipeline-progress {
+  line-height: 1.5;
+}
+
+#pipeline-progress {
+  min-height: 3.25rem;
+}
+
+.prepared-badge {
+  background: #eef6ff;
+  border-left: 5px solid var(--musc-accent);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+}
+
+.danger-card {
+  background: var(--musc-danger-bg);
+  border: 2px solid var(--musc-danger);
+  border-radius: 10px;
+  color: var(--musc-danger);
+  font-weight: 700;
+  padding: 0.75rem 0.9rem;
+}
+
+.image-grid > div {
+  min-width: 0 !important;
+}
+
+.image-grid img,
+.result-gallery img {
+  max-height: 360px;
+  object-fit: contain !important;
+}
+
+button,
+input,
+label,
+select {
+  font-size: 1rem !important;
+}
+
+@media (max-width: 900px) {
+  .top-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .image-grid {
+    flex-wrap: wrap !important;
+  }
+
+  .image-grid > div {
+    flex-basis: calc(50% - 0.5rem) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .gradio-container {
+    font-size: 16px !important;
+  }
+
+  .image-grid > div {
+    flex-basis: 100% !important;
+  }
+}
