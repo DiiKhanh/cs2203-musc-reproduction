@@ -239,6 +239,29 @@ def test_cached_engine_initializes_the_backbone_once(
     get_cached_engine.cache_clear()
 
 
+def test_default_backend_is_created_only_when_engine_initializes(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    created: list[Path] = []
+
+    class DeferredBackend(FakeBackend):
+        def __init__(self, musc_root: Path) -> None:
+            created.append(musc_root)
+            super().__init__()
+
+    monkeypatch.setattr(inference_module, "TorchMuScBackend", DeferredBackend)
+
+    engine = MuScInferenceEngine(Path("/tmp/MuSc"), demo_config())
+
+    assert created == []
+    assert engine.state == "uninitialized"
+
+    engine.initialize()
+
+    assert created == [Path("/tmp/MuSc")]
+    assert engine.state == "ready"
+
+
 def test_initialize_without_cuda_reports_gpu_unavailable() -> None:
     engine = MuScInferenceEngine(
         Path("/tmp/MuSc"), demo_config(), backend=FakeBackend(cuda_available=False)

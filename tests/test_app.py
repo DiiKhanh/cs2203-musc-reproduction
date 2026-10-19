@@ -1,12 +1,16 @@
 from pathlib import Path
 import warnings
 
+import pytest
+
+import musc_demo.app as app_module
 from musc_demo.app import (
     GPU_CONCURRENCY_ID,
     GPU_CONCURRENCY_LIMIT,
     DemoServices,
     allocate_run_workspace,
     build_app,
+    default_services,
 )
 from musc_demo.prepared_results import PreparedCatalog
 
@@ -77,3 +81,51 @@ def test_gpu_queue_allows_only_one_inference_job(tmp_path):
     assert GPU_CONCURRENCY_LIMIT == 1
     assert len(inference_dependencies) == 1
     assert inference_dependencies[0].concurrency_limit == 1
+
+
+def test_default_services_eagerly_reuses_cached_engine_when_cuda_is_available(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    cached_engine = FakeEngine("ready")
+    calls: list[tuple[Path, Path]] = []
+    monkeypatch.setenv("MUSC_EAGER_INIT", "1")
+    monkeypatch.delenv("MUSC_PREPARED_ROOT", raising=False)
+    monkeypatch.setattr(app_module, "_detect_cuda", lambda: (True, "Fake T4"))
+    monkeypatch.setattr(
+        app_module,
+        "get_cached_engine",
+        lambda musc_root, config_path: (
+            calls.append((musc_root, config_path)) or cached_engine
+        ),
+    )
+
+    services = default_services()
+
+    assert services.engine is cached_engine
+    assert len(calls) == 1
+    assert calls[0][1].name == "demo.json"
+
+
+def test_default_services_preserves_prepared_fallback_when_eager_init_fails(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fallback_engine = FakeEngine("uninitialized")
+    monkeypatch.setenv("MUSC_EAGER_INIT", "1")
+    monkeypatch.delenv("MUSC_PREPARED_ROOT", raising=False)
+    monkeypatch.setattr(app_module, "_detect_cuda", lambda: (True, "Fake T4"))
+    monkeypatch.setattr(
+        app_module,
+        "get_cached_engine",
+        lambda *_: (_ for _ in ()).throw(RuntimeError("weights unavailable")),
+    )
+    monkeypatch.setattr(
+        app_module,
+        "MuScInferenceEngine",
+        lambda *_: fallback_engine,
+    )
+
+    services = default_services()
+
+    assert services.engine is fallback_engine
+    assert services.engine.state == "uninitialized"
+    assert services.prepared.error == "MUSC_PREPARED_ROOT is not configured"

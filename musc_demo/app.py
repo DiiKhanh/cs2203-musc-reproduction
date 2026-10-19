@@ -21,6 +21,7 @@ from .inference import (
     InitializationError,
     MuScInferenceEngine,
     ProgressCallback,
+    get_cached_engine,
 )
 from .models import BatchValidationReport
 from .prepared_results import PreparedCatalog, PreparedExample, PreparedRun
@@ -679,7 +680,18 @@ def default_services() -> DemoServices:
     musc_root = Path(os.environ.get("MUSC_ROOT", repository_root / "MuSc"))
     config_path = repository_root / "configs" / "demo.json"
     config = json.loads(config_path.read_text(encoding="utf-8"))
-    engine = MuScInferenceEngine(musc_root, config)
+    gpu_available, gpu_name = _detect_cuda()
+    engine: DemoEngine
+    if os.environ.get("MUSC_EAGER_INIT") == "1" and gpu_available:
+        try:
+            engine = get_cached_engine(musc_root, config_path)
+        except Exception:
+            LOGGER.exception(
+                "Eager MuSc initialization failed; continuing with prepared fallback"
+            )
+            engine = MuScInferenceEngine(musc_root, config)
+    else:
+        engine = MuScInferenceEngine(musc_root, config)
 
     prepared_root_value = os.environ.get("MUSC_PREPARED_ROOT")
     if prepared_root_value:
@@ -688,7 +700,6 @@ def default_services() -> DemoServices:
         prepared = PreparedCatalog.load(manifest_path, prepared_root)
     else:
         prepared = PreparedCatalog(error="MUSC_PREPARED_ROOT is not configured")
-    gpu_available, gpu_name = _detect_cuda()
     workspace_root = Path(tempfile.mkdtemp(prefix="musc-demo-runs-"))
     return DemoServices(
         engine=engine,

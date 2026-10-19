@@ -249,7 +249,7 @@ class MuScInferenceEngine:
     ) -> None:
         self.musc_root = Path(musc_root)
         self.config = dict(config)
-        self.backend = backend if backend is not None else TorchMuScBackend(musc_root)
+        self.backend = backend
         self._state: EngineState = "uninitialized"
         self._model: object | None = None
         self._preprocess: object | None = None
@@ -267,13 +267,17 @@ class MuScInferenceEngine:
     def initialize(self) -> None:
         if self._state == "ready":
             return
-        if not self.backend.cuda_available():
-            self._state = "failed"
-            raise InitializationError(
-                "GPU_UNAVAILABLE", "Live inference requires a CUDA GPU"
-            )
         try:
+            if self.backend is None:
+                self.backend = TorchMuScBackend(self.musc_root)
+            if not self.backend.cuda_available():
+                raise InitializationError(
+                    "GPU_UNAVAILABLE", "Live inference requires a CUDA GPU"
+                )
             self._model, self._preprocess = self.backend.load_backbone(self.config)
+        except InitializationError:
+            self._state = "failed"
+            raise
         except Exception as error:
             self._state = "failed"
             raise InitializationError(
@@ -288,6 +292,8 @@ class MuScInferenceEngine:
     ) -> InferenceResult:
         if self._state != "ready" or self._model is None:
             raise InitializationError("MODEL_NOT_READY", "MuSc model is not ready")
+        if self.backend is None:
+            raise InitializationError("MODEL_NOT_READY", "MuSc backend is not ready")
 
         current_stage = "normalize"
 
