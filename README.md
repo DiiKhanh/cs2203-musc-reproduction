@@ -86,6 +86,12 @@ The expected bundle structure is documented in
 fallback behavior, and launch instructions are in
 [`docs/musc_demo_colab_runbook.md`](docs/musc_demo_colab_runbook.md).
 
+Before classroom use, complete the remaining Tesla T4 and external-artifact
+gates in [`docs/musc_demo_verification.md`](docs/musc_demo_verification.md).
+The presentation sequence, scope statement, new-batch decision rule, and
+fallback actions are in
+[`docs/musc_demo_presentation_checklist.md`](docs/musc_demo_presentation_checklist.md).
+
 For a local prepared-only launch, install `requirements-demo.txt`, optionally
 set `MUSC_PREPARED_ROOT`, and run:
 
