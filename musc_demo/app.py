@@ -356,7 +356,9 @@ def build_app(services: DemoServices) -> gr.Blocks:
         workspace_state = gr.State(None)
         rendered_state = gr.State(())
 
-        def initialize_model():
+        def initialize_model(
+            report: BatchValidationReport | None, confirmed: bool
+        ):
             message = "MuSc model đã sẵn sàng."
             try:
                 services.engine.initialize()
@@ -376,15 +378,29 @@ def build_app(services: DemoServices) -> gr.Blocks:
                 engine_state=services.engine.state,
                 prepared=services.prepared,
             )
+            live_state = run_button_state(
+                report,
+                confirmed=confirmed,
+                engine_state=services.engine.state,
+            )
             return (
                 state.markdown,
                 message,
                 gr.Button(interactive=state.initialize_interactive),
+                gr.Button(interactive=live_state.interactive),
+                live_state.reason,
             )
 
         initialize_button.click(
             initialize_model,
-            outputs=[environment_output, initialization_message, initialize_button],
+            inputs=[report_state, confirmation],
+            outputs=[
+                environment_output,
+                initialization_message,
+                initialize_button,
+                run_button,
+                run_reason,
+            ],
             queue=False,
             api_visibility="private",
         )

@@ -21,14 +21,15 @@ from musc_demo.prepared_results import (
 
 
 class FakeEngine:
-    state = "ready"
+    def __init__(self) -> None:
+        self.state = "uninitialized"
 
     @property
     def preprocess(self):
         return lambda image: image
 
     def initialize(self) -> None:
-        return None
+        self.state = "ready"
 
     def run(self, dataset, progress) -> InferenceResult:
         for stage, fraction, message in (
@@ -188,6 +189,11 @@ def test_research_first_browser_flow(browser_demo):
         expect(page.locator("#run-live-inference")).to_be_disabled()
 
         page.locator("#input-attestation input[type=checkbox]").check()
+        expect(page.locator("#run-live-inference")).to_be_disabled()
+        page.locator("#initialize-model").click()
+        expect(page.locator("#environment-card")).to_contain_text(
+            "MuSc model: Sẵn sàng", timeout=10_000
+        )
         expect(page.locator("#run-live-inference")).to_be_enabled(timeout=10_000)
         page.locator("#run-live-inference").click()
         page.wait_for_timeout(250)
