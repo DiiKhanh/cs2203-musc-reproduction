@@ -20,7 +20,7 @@ not be described as passed during the presentation.
 
 ## Frozen identifiers
 
-- Reproduction commit tested locally: `dd4aee29e94fcbdc00f8d491d8301f60f039c06f`
+- Reproduction code commit tested locally: `1c8c495ba0766f7c3c361757546377eb846b1c62`
 - Official MuSc commit: `b76b93da8bd3096a99964a96ae29d46f197a0651`
 - Demo configuration: `configs/demo.json`
 - Local verification date: 2026-10-19
