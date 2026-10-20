@@ -120,6 +120,22 @@ def _prepared_gallery(run: PreparedRun | None) -> list[tuple[str, str]]:
     return gallery
 
 
+def _initial_prepared_selection(
+    catalog: PreparedCatalog,
+) -> tuple[str | None, str | None, str | None]:
+    fallback: tuple[str | None, str | None, str | None] = (None, None, None)
+    for dataset in catalog.datasets():
+        for category in catalog.categories(dataset):
+            run_ids = catalog.runs(dataset, category)
+            if fallback == (None, None, None):
+                fallback = (dataset, category, _first(run_ids))
+            for run_id in run_ids:
+                run = catalog.get_run(run_id)
+                if run.available and _prepared_gallery(run):
+                    return dataset, category, run_id
+    return fallback
+
+
 def _example_values(
     example: PreparedExample | None,
 ) -> tuple[str | None, str | None, str | None, str | None, str]:
@@ -147,21 +163,68 @@ def theme_css_path() -> Path:
     return Path(__file__).with_name("theme.css")
 
 
+def demo_theme() -> gr.Theme:
+    """Return one presentation-safe light palette for every browser preference."""
+
+    return gr.themes.Soft(primary_hue="blue", neutral_hue="slate").set(
+        body_background_fill="#f5f7fb",
+        body_background_fill_dark="#f5f7fb",
+        body_text_color="#14213d",
+        body_text_color_dark="#14213d",
+        body_text_color_subdued="#526174",
+        body_text_color_subdued_dark="#526174",
+        background_fill_primary="#ffffff",
+        background_fill_primary_dark="#ffffff",
+        background_fill_secondary="#f4f7fa",
+        background_fill_secondary_dark="#f4f7fa",
+        block_background_fill="#ffffff",
+        block_background_fill_dark="#ffffff",
+        block_border_color="#d9e1e8",
+        block_border_color_dark="#d9e1e8",
+        block_label_background_fill="#ffffff",
+        block_label_background_fill_dark="#ffffff",
+        block_label_text_color="#14213d",
+        block_label_text_color_dark="#14213d",
+        input_background_fill="#ffffff",
+        input_background_fill_dark="#ffffff",
+        input_border_color="#cbd5e1",
+        input_border_color_dark="#cbd5e1",
+        panel_background_fill="#ffffff",
+        panel_background_fill_dark="#ffffff",
+        panel_border_color="#d9e1e8",
+        panel_border_color_dark="#d9e1e8",
+        button_primary_background_fill="#2563eb",
+        button_primary_background_fill_dark="#2563eb",
+        button_primary_background_fill_hover="#1d4ed8",
+        button_primary_background_fill_hover_dark="#1d4ed8",
+        button_primary_text_color="#ffffff",
+        button_primary_text_color_dark="#ffffff",
+        link_text_color="#1d4ed8",
+        link_text_color_dark="#1d4ed8",
+        table_even_background_fill="#f8fafc",
+        table_even_background_fill_dark="#f8fafc",
+        table_odd_background_fill="#ffffff",
+        table_odd_background_fill_dark="#ffffff",
+        table_text_color="#14213d",
+        table_text_color_dark="#14213d",
+    )
+
+
 def build_app(services: DemoServices) -> gr.Blocks:
     """Build the complete app without initializing or downloading the model."""
 
     datasets = services.prepared.datasets()
-    initial_dataset = _first(datasets)
+    initial_dataset, initial_category, initial_run_id = _initial_prepared_selection(
+        services.prepared
+    )
     categories = (
         services.prepared.categories(initial_dataset) if initial_dataset else ()
     )
-    initial_category = _first(categories)
     runs = (
         services.prepared.runs(initial_dataset, initial_category)
         if initial_dataset and initial_category
         else ()
     )
-    initial_run_id = _first(runs)
     initial_run, initial_example = _prepared_selection(
         services.prepared, initial_dataset, initial_category, initial_run_id
     )
@@ -173,11 +236,11 @@ def build_app(services: DemoServices) -> gr.Blocks:
     )
 
     with gr.Blocks(
-        title="MuSc - Industrial Anomaly Detection Demo",
+        title="MuSc - Visual Anomaly Detection Demo",
         fill_width=True,
     ) as app:
         gr.Markdown(
-            "# MuSc - Demo phát hiện bất thường công nghiệp",
+            "# MuSc - Phát hiện và định vị bất thường ngoại quan",
             elem_id="demo-title",
         )
         with gr.Row(elem_classes="top-grid"):
@@ -727,7 +790,11 @@ def default_services() -> DemoServices:
 
 
 def launch_app(*, share: bool = True) -> None:
-    build_app(default_services()).launch(share=share, css_paths=theme_css_path())
+    build_app(default_services()).launch(
+        share=share,
+        css_paths=theme_css_path(),
+        theme=demo_theme(),
+    )
 
 
 if __name__ == "__main__":

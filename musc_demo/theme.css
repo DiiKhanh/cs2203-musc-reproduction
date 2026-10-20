@@ -9,7 +9,14 @@
   --musc-danger-bg: #fff1f1;
 }
 
+html,
+body {
+  background: var(--musc-soft) !important;
+  color-scheme: light !important;
+}
+
 .gradio-container {
+  background: var(--musc-soft) !important;
   color: var(--musc-ink);
   font-size: 17px !important;
   max-width: 1680px !important;

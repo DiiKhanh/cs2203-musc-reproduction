@@ -10,7 +10,7 @@ import pytest
 from PIL import Image
 from playwright.sync_api import Page, expect, sync_playwright
 
-from musc_demo.app import DemoServices, build_app, theme_css_path
+from musc_demo.app import DemoServices, build_app, demo_theme, theme_css_path
 from musc_demo.inference import InferenceItem, InferenceResult
 from musc_demo.prepared_results import (
     PreparedAssets,
@@ -124,6 +124,7 @@ def browser_demo(tmp_path_factory):
         quiet=True,
         show_error=False,
         css_paths=theme_css_path(),
+        theme=demo_theme(),
     )
     try:
         yield local_url, root

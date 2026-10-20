@@ -40,7 +40,7 @@ assert torch.cuda.is_available(), (
 )
 
 os.environ["MUSC_ROOT"] = str(UPSTREAM_ROOT)
-os.environ["MUSC_EAGER_INIT"] = "1"
+os.environ["MUSC_EAGER_INIT"] = "0"
 os.environ["MUSC_COMMIT"] = PINNED_MUSC_COMMIT
 
 print("python:", sys.version)
@@ -211,10 +211,9 @@ else:
 
 ## Cell 7 - Preflight the pinned engine and fallback state
 
-The app process calls `get_cached_engine()` once because `MUSC_EAGER_INIT=1`.
-This loads the backbone before the share URL is printed and reuses the same
-GPU-resident engine for later runs. If initialization fails, the app still
-starts and leaves Prepared Benchmark available when its bundle is mounted.
+The app starts without loading the backbone so the share URL and Prepared
+Benchmark remain available even if model initialization later fails. Initialize
+MuSc from the app only when Live Inference is needed.
 
 ```python
 import json
@@ -234,32 +233,46 @@ assert configuration["rscin_neighbors"] == [1, 2, 3]
 if "MUSC_PREPARED_ROOT" not in os.environ:
     print("Fallback note: Prepared Benchmark is unavailable until its bundle is mounted.")
 print("Fallback note: if live inference fails, keep the prepared tab open and reduce the batch.")
-print("Preflight complete. The next cell initializes MuSc and prints the share URL.")
+print("Preflight complete. The next cell opens the app; initialize MuSc inside it.")
 ```
 
-## Cell 8 - Initialize MuSc and launch the temporary Gradio share link
+## Cell 8 - Launch the app before initializing MuSc
 
-The command blocks while the app is running. Stop this cell to shut down the
-temporary public link. Do not place credentials, dataset archives, or private
-Drive paths in the repository or app interface.
+The cell blocks while the app is running. Stop it to shut down the temporary
+public link. Prepared Benchmark is available immediately; initialize MuSc from
+the app only when Live Inference is needed.
 
 ```python
 import os
-import subprocess
 import sys
 
-launch_command = "python -m musc_demo.app"
-print("Launching:", launch_command)
-print("Wait for the line containing the temporary Gradio share URL.")
+os.environ["MUSC_ROOT"] = str(UPSTREAM_ROOT)
+os.environ["MUSC_EAGER_INIT"] = "0"
 
-launch_environment = os.environ.copy()
-launch_environment["MUSC_ROOT"] = str(UPSTREAM_ROOT)
-launch_environment["MUSC_EAGER_INIT"] = "1"
-subprocess.run(
-    [sys.executable, "-m", "musc_demo.app"],
-    cwd=REPRO_ROOT,
-    env=launch_environment,
-    check=True,
+if str(REPRO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPRO_ROOT))
+
+print("[1/4] Importing the MuSc demo...", flush=True)
+from musc_demo.app import (
+    build_app,
+    default_services,
+    demo_theme,
+    theme_css_path,
+)
+
+print("[2/4] Loading configuration and Prepared Benchmark...", flush=True)
+services = default_services()
+
+print("[3/4] Building the interface...", flush=True)
+demo = build_app(services)
+
+print("[4/4] Starting Gradio and creating a share URL...", flush=True)
+demo.launch(
+    share=True,
+    debug=True,
+    show_error=True,
+    css_paths=theme_css_path(),
+    theme=demo_theme(),
 )
 ```
 

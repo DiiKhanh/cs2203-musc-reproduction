@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from dataclasses import fields
 from pathlib import Path
 from types import SimpleNamespace
@@ -317,3 +318,37 @@ def test_load_upstream_modules_rejects_wrong_commit_before_import(
 
     assert error.value.actual == "wrong-commit"
     assert imported == []
+
+
+def test_load_upstream_modules_exposes_vendored_open_clip_import_root(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(
+        upstream_module.subprocess,
+        "run",
+        lambda *args, **kwargs: SimpleNamespace(
+            stdout=f"{upstream_module.PINNED_MUSC_COMMIT}\n"
+        ),
+    )
+    fake_open_clip = SimpleNamespace()
+    fake_lnamd = SimpleNamespace(LNAMD=object())
+    fake_msm = SimpleNamespace(MSM=lambda: None)
+    fake_rscin = SimpleNamespace(RsCIN=lambda: None)
+    modules = {
+        "models.backbone.open_clip": fake_open_clip,
+        "models.modules._LNAMD": fake_lnamd,
+        "models.modules._MSM": fake_msm,
+        "models.modules._RsCIN": fake_rscin,
+    }
+
+    def import_upstream(name: str) -> object:
+        backbone_root = str(tmp_path / "models" / "backbone")
+        if name == "models.backbone.open_clip" and backbone_root not in sys.path:
+            raise ModuleNotFoundError("No module named 'open_clip'")
+        return modules[name]
+
+    monkeypatch.setattr(upstream_module.importlib, "import_module", import_upstream)
+
+    loaded = load_upstream_modules(tmp_path)
+
+    assert loaded.open_clip is fake_open_clip

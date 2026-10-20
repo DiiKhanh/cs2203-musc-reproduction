@@ -45,9 +45,13 @@ def load_upstream_modules(musc_root: Path) -> UpstreamModules:
     if actual_commit != PINNED_MUSC_COMMIT:
         raise UpstreamVersionError(PINNED_MUSC_COMMIT, actual_commit)
 
-    root_text = str(musc_root)
-    if root_text not in sys.path:
-        sys.path.insert(0, root_text)
+    import_roots = (
+        str(musc_root),
+        str(musc_root / "models" / "backbone"),
+    )
+    for import_root in reversed(import_roots):
+        if import_root not in sys.path:
+            sys.path.insert(0, import_root)
 
     open_clip = importlib.import_module("models.backbone.open_clip")
     lnamd_module = importlib.import_module("models.modules._LNAMD")
@@ -59,4 +63,3 @@ def load_upstream_modules(musc_root: Path) -> UpstreamModules:
         msm=msm_module.MSM,
         rscin=rscin_module.RsCIN,
     )
-

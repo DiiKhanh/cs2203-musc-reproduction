@@ -30,7 +30,7 @@ follow-up experiments and are intentionally not included in this package yet.
 ```text
 configs/       Frozen baseline configuration
 docs/          English Colab runbook and reproducibility notes
-notebooks/     Executable E00 smoke-test notebook
+notebooks/     Executable reproduction and classroom notebooks
 patches/       Minimal changes applied to the pinned upstream revision
 scripts/       Category-level execution helper
 tools/         Notebook build utility
@@ -77,6 +77,11 @@ modes:
 Open the classroom launcher in Colab:
 
 [![Open MuSc Classroom Demo in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DiiKhanh/cs2203-musc-reproduction/blob/master/notebooks/MuSc_classroom_demo.ipynb)
+
+A Vietnamese setup version is available as
+[`notebooks/MuSc_classroom_demo_vi.ipynb`](notebooks/MuSc_classroom_demo_vi.ipynb),
+with its editable source in
+[`docs/musc_demo_colab_runbook_vi.md`](docs/musc_demo_colab_runbook_vi.md).
 
 The private repository requires a read-only `GITHUB_TOKEN` stored in Colab
 Secrets. Prepared Benchmark additionally requires an external bundle whose root
