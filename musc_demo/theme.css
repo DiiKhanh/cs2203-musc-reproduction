@@ -51,6 +51,14 @@ body {
   margin-top: 0;
 }
 
+.gradio-container :not(pre) > code {
+  background: #e7f1ff !important;
+  border: 1px solid #b9d4f2;
+  border-radius: 5px;
+  color: #0b4678 !important;
+  padding: 0.08rem 0.35rem;
+}
+
 .research-card li,
 .input-contract,
 #validation-report,
