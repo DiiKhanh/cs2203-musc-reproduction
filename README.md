@@ -22,18 +22,22 @@ resolved by the runtime.
 - Pixel-level metrics: AUROC, AP, F1-max, and PRO.
 - Runtime environment: Google Colab with an NVIDIA Tesla T4.
 
-The required baseline experiments are complete. E03 and E04 are optional
-follow-up experiments and are intentionally not included in this package yet.
+The required baseline experiments are complete. The qualitative runs and the E04
+pooling extension are covered by
+[`docs/qualitative_and_e04_runbook.md`](docs/qualitative_and_e04_runbook.md). The
+optional E03 experiment was not run.
 
 ## Repository layout
 
 ```text
-configs/       Frozen baseline configuration
-docs/          English Colab runbook and reproducibility notes
+configs/       Frozen baseline configuration and the E04Q fixed case plan
+docs/          English runbooks and reproducibility notes
+docs/figures/  Qualitative figures used in the report and presentation
 notebooks/     Executable E00 smoke-test notebook
 patches/       Minimal changes applied to the pinned upstream revision
 scripts/       Category-level execution helper
-tools/         Notebook build utility
+tests/         Tests for the post-processing tools
+tools/         Notebook build, case selection, summary, and figure utilities
 ```
 
 Datasets, pretrained weights, raw experiment archives, and credentials are not
@@ -127,6 +131,11 @@ same-category A/B run with and without the patch was not performed. This is a
 documented reproducibility limitation rather than an experimentally proven
 equivalence claim.
 
+`e02q-per-image-scores.patch` and `e04-top1-pooling.patch` are the archived
+experiment diffs. Each one already includes the memory cleanup, so apply them
+instead of `cpu-memory.patch`, as described in the
+[runbook](docs/qualitative_and_e04_runbook.md).
+
 ## Rebuilding the notebook
 
 ```bash
@@ -134,6 +143,27 @@ python tools/build_notebook.py \
   docs/E00_colab_runbook.md \
   notebooks/E00_mvtec_bottle_smoke_test.ipynb
 ```
+
+## Qualitative figures
+
+Each file in `docs/figures/` shows the original image, the ground truth, the
+MuSc heatmap, and the overlay with the ground-truth contour. VisA masks store
+defect class IDs from 1 to 7 rather than 255, so the ground truth is rendered as
+a binary mask (`mask > 0`). A raw 0-255 display of a VisA mask looks almost black.
+
+The figures are rendered from the E01Q and E02Q selected assets, which are not
+stored here. Follow the [runbook](docs/qualitative_and_e04_runbook.md) to create
+them, or extract the archived runs into `e01q/` and `e02q/` under one directory,
+then run:
+
+```bash
+python3 -m pip install -r requirements-tools.txt
+python3 tools/render_slide_strips.py \
+  --source /absolute/path/to/runs \
+  --output docs/figures
+```
+
+Run the tests for these tools with `python3 -m pytest tests`.
 
 ## Primary references
 
@@ -150,4 +180,6 @@ The original files in this repository are released under the [MIT License](LICEN
 This repository does not redistribute the MuSc source code, datasets, or model
 weights. The upstream MuSc implementation is also distributed under its own
 [MIT License](https://github.com/xrli-U/MuSc/blob/b76b93da8bd3096a99964a96ae29d46f197a0651/LICENSE),
-and datasets retain their own licenses and terms.
+and datasets retain their own licenses and terms. The images in `docs/figures/`
+contain MVTec AD and VisA samples, so the MIT License does not cover them and
+they remain under their dataset terms.
