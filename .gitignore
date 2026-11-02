@@ -13,6 +13,7 @@ outputs/
 output/
 *.xlsx
 *.csv
+!configs/*.csv
 *.log
 *.pt
 *.pth

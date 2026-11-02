@@ -1,0 +1,115 @@
+diff --git a/models/musc.py b/models/musc.py
+index 92e91d9..7fff877 100644
+--- a/models/musc.py
++++ b/models/musc.py
+@@ -23,11 +23,25 @@ from tqdm import tqdm
+ import pickle
+ import time
+ import cv2
++import csv
++import json
++import gc
+ 
+ import warnings
+ warnings.filterwarnings("ignore")
+ 
+ 
++def top_fraction_mean(anomaly_maps, fraction=0.01):
++    assert 0 < fraction <= 1
++    flat_scores = np.asarray(anomaly_maps).reshape(anomaly_maps.shape[0], -1)
++    top_count = max(1, int(np.ceil(flat_scores.shape[1] * fraction)))
++    pooled_scores = np.empty(flat_scores.shape[0], dtype=np.float64)
++    for index, row in enumerate(flat_scores):
++        split_index = row.size - top_count
++        pooled_scores[index] = np.partition(row, split_index)[split_index:].mean()
++    return pooled_scores, top_count
++
++
+ class MuSc():
+     def __init__(self, cfg, seed=0):
+         self.cfg = cfg
+@@ -234,10 +248,19 @@ class MuSc():
+         print('MuSc: {}ms per image'.format((end_time_all-start_time_all)*1000/dataset_num))
+ 
+         anomaly_maps = anomaly_maps.cpu().numpy()
++        # Release feature tensors before allocating flattened metric arrays.
++        del patch_tokens_list, Z_layers, Z, features, patch_tokens
++        del anomaly_maps_l, anomaly_maps_msm, anomaly_maps_iter
++        del image_info, image, input_image, test_dataloader, test_dataset, LNAMD_r
++        gc.collect()
+         torch.cuda.empty_cache()
+ 
+         B = anomaly_maps.shape[0]   # the number of unlabeled test images
+-        ac_score = np.array(anomaly_maps).reshape(B, -1).max(-1)
++        e04_scoring_started = time.time()
++        flat_scores = anomaly_maps.reshape(B, -1)
++        max_score = flat_scores.max(-1)
++        top1_score, top1_count = top_fraction_mean(anomaly_maps, fraction=0.01)
++        ac_score = max_score
+         # RsCIN
+         if self.dataset == 'visa':
+             k_score = [1, 8, 9]
+@@ -245,14 +268,61 @@ class MuSc():
+             k_score = [1, 2, 3]
+         else:
+             k_score = [1, 2, 3]
+-        scores_cls = RsCIN(ac_score, class_tokens, k_list=k_score)
++        scores_cls = RsCIN(max_score, class_tokens, k_list=k_score)
++        score_variants = {
++            'max_raw': np.asarray(max_score),
++            'max_rscin': np.asarray(scores_cls),
++            'top1_raw': np.asarray(top1_score),
++            'top1_rscin': np.asarray(RsCIN(top1_score, class_tokens, k_list=k_score)),
++        }
+ 
+         print('computing metrics...')
+         pr_sp = np.array(scores_cls)
+         gt_sp = np.array(gt_list)
+         gt_px = torch.cat(img_masks, dim=0).numpy().astype(np.int32)
+-        pr_px = np.array(anomaly_maps)
++        pr_px = anomaly_maps
+         image_metric, pixel_metric = compute_metrics(gt_sp, pr_sp, gt_px, pr_px)
++        variant_metrics = {}
++        for variant_name, variant_scores in score_variants.items():
++            if variant_name == 'max_rscin':
++                variant_image_metric = image_metric
++            else:
++                variant_image_metric, _ = compute_metrics(
++                    gt_sp, np.asarray(variant_scores), None, None
++                )
++            variant_metrics[variant_name] = {
++                'auroc_sp': float(variant_image_metric[0] * 100),
++                'f1_sp': float(variant_image_metric[1] * 100),
++                'ap_sp': float(variant_image_metric[2] * 100),
++            }
++
++        e04_scoring_seconds = time.time() - e04_scoring_started
++        e04_payload = {
++            'category': category,
++            'image_count': int(B),
++            'pixel_count_per_image': int(flat_scores.shape[1]),
++            'pool_fraction': 0.01,
++            'top_count': int(top1_count),
++            'e04_scoring_seconds': float(e04_scoring_seconds),
++            'variants': variant_metrics,
++        }
++        with open(os.path.join(self.output_dir, 'e04-metrics.json'), 'w') as stream:
++            json.dump(e04_payload, stream, indent=2)
++            stream.write('\n')
++
++        score_path = os.path.join(self.output_dir, 'e04-per-image-scores.csv')
++        with open(score_path, 'w', newline='') as stream:
++            fieldnames = ['image_path', 'label', *score_variants.keys()]
++            writer = csv.DictWriter(stream, fieldnames=fieldnames)
++            writer.writeheader()
++            for index, image_path in enumerate(image_path_list):
++                row = {
++                    'image_path': image_path,
++                    'label': int(gt_sp[index]),
++                }
++                for variant_name, variant_scores in score_variants.items():
++                    row[variant_name] = float(variant_scores[index])
++                writer.writerow(row)
+         auroc_sp, f1_sp, ap_sp = image_metric
+         auroc_px, f1_px, ap_px, aupro = pixel_metric
+         print(category)

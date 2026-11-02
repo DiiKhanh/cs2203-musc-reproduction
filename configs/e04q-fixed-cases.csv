@@ -1,0 +1,10 @@
+category,relative_test_path,expected_label,selection_reason
+carpet,good/019.png,0,resolved_fp_both
+carpet,metal_contamination/013.png,1,large_anomaly_rank_drop
+carpet,color/013.png,1,large_anomaly_rank_drop
+transistor,good/022.png,0,resolved_fp_raw_largest_drop
+transistor,good/001.png,0,new_fp_both
+transistor,cut_lead/001.png,1,large_anomaly_rank_drop
+screw,good/008.png,0,new_fp_raw_largest_adverse_change
+screw,good/003.png,0,new_fp_rscin_largest_adverse_change
+screw,scratch_neck/000.png,1,largest_rscin_anomaly_rank_drop

@@ -1,0 +1,81 @@
+diff --git a/models/musc.py b/models/musc.py
+index 92e91d9..68b1312 100644
+--- a/models/musc.py
++++ b/models/musc.py
+@@ -18,11 +18,13 @@ from models.modules._LNAMD import LNAMD
+ from models.modules._MSM import MSM
+ from models.modules._RsCIN import RsCIN
+ from utils.metrics import compute_metrics
++from sklearn.metrics import roc_auc_score
+ from openpyxl import Workbook
+ from tqdm import tqdm
+ import pickle
+ import time
+ import cv2
++import gc
+ 
+ import warnings
+ warnings.filterwarnings("ignore")
+@@ -234,10 +236,15 @@ class MuSc():
+         print('MuSc: {}ms per image'.format((end_time_all-start_time_all)*1000/dataset_num))
+ 
+         anomaly_maps = anomaly_maps.cpu().numpy()
++        # Release feature tensors before allocating flattened metric arrays.
++        del patch_tokens_list, Z_layers, Z, features, patch_tokens
++        del anomaly_maps_l, anomaly_maps_msm, anomaly_maps_iter
++        del image_info, image, input_image, test_dataloader, test_dataset, LNAMD_r
++        gc.collect()
+         torch.cuda.empty_cache()
+ 
+         B = anomaly_maps.shape[0]   # the number of unlabeled test images
+-        ac_score = np.array(anomaly_maps).reshape(B, -1).max(-1)
++        ac_score = anomaly_maps.reshape(B, -1).max(-1)
+         # RsCIN
+         if self.dataset == 'visa':
+             k_score = [1, 8, 9]
+@@ -251,7 +258,44 @@ class MuSc():
+         pr_sp = np.array(scores_cls)
+         gt_sp = np.array(gt_list)
+         gt_px = torch.cat(img_masks, dim=0).numpy().astype(np.int32)
+-        pr_px = np.array(anomaly_maps)
++        pr_px = anomaly_maps
++
++        # Export observational per-image scores without changing metric inputs.
++        assert len(image_path_list) == len(gt_sp) == len(ac_score) == len(pr_sp)
++        initial_score_range = ac_score.max() - ac_score.min()
++        assert initial_score_range > 0
++        initial_normalized = (ac_score - ac_score.min()) / initial_score_range
++        per_image_records = []
++        for sample_index, image_path in enumerate(image_path_list):
++            flat_score = pr_px[sample_index].reshape(-1)
++            top_count = max(1, int(np.ceil(flat_score.size * 0.01)))
++            top1_mean = float(np.partition(flat_score, -top_count)[-top_count:].mean())
++            pixel_auroc = ''
++            if int(gt_sp[sample_index]) == 1:
++                flat_mask = gt_px[sample_index].reshape(-1)
++                assert flat_mask.min() == 0 and flat_mask.max() == 1
++                pixel_auroc = float(roc_auc_score(flat_mask, flat_score))
++            per_image_records.append(
++                {
++                    'category': category,
++                    'image_path': image_path,
++                    'is_anomaly': int(gt_sp[sample_index]),
++                    'initial_max_score_raw': float(ac_score[sample_index]),
++                    'initial_normalized_score': float(initial_normalized[sample_index]),
++                    'rscin_score': float(pr_sp[sample_index]),
++                    'rscin_delta_from_initial_normalized': float(
++                        pr_sp[sample_index] - initial_normalized[sample_index]
++                    ),
++                    'pixel_auroc_raw': pixel_auroc,
++                    'top1_percent_raw_mean': top1_mean,
++                }
++            )
++        per_image_score_path = os.path.join(
++            self.output_dir, f'{category}_per-image-scores.csv'
++        )
++        import pandas as pd
++        pd.DataFrame(per_image_records).to_csv(per_image_score_path, index=False)
++
+         image_metric, pixel_metric = compute_metrics(gt_sp, pr_sp, gt_px, pr_px)
+         auroc_sp, f1_sp, ap_sp = image_metric
+         auroc_px, f1_px, ap_px, aupro = pixel_metric
