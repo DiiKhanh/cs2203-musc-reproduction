@@ -1,0 +1,7 @@
+# Post-processing tools under tools/ and their tests. No GPU is required.
+numpy
+opencv-python-headless
+pandas
+pillow
+pytest
+scikit-learn
