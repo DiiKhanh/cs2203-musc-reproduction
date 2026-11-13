@@ -14,6 +14,18 @@ Package dependencies that are not fixed by the Colab runtime are pinned or
 bounded in `requirements-colab.txt`. Every run records the versions actually
 resolved by the runtime.
 
+## Course deliverables
+
+The Vietnamese report and presentation are archived alongside the code:
+
+| Deliverable | Version | File |
+|---|---|---|
+| Final report, PDF | 2026-11-02 | [Read the report](reports/2026-11-02-musc-final-report-vi.pdf) |
+| Final report, editable DOCX | 2026-11-02 | [Download the report source](reports/2026-11-02-musc-final-report-vi.docx) |
+| Presentation slides, PDF | 2026-11-05 | [Read the slides](slides/2026-11-05-musc-reproduction-slides-vi.pdf) |
+
+The presenter confirmed completion of the demo recording on 2026-11-13.
+
 ## Reproduction scope
 
 - MVTec AD: all 15 categories, with quantitative and qualitative analysis.
@@ -40,6 +52,8 @@ tests/         Tests for the demo and post-processing tools
 tools/         Notebook build, case selection, summary, and figure utilities
 musc_demo/     Native Gradio classroom demo
 prepared/      Prepared-bundle schema and provenance guidance
+reports/       Final Vietnamese report in PDF and editable DOCX formats
+slides/        Vietnamese presentation PDF
 ```
 
 Datasets, pretrained weights, raw experiment archives, and credentials are not
@@ -239,6 +253,7 @@ The original files in this repository are released under the [MIT License](LICEN
 This repository does not redistribute the MuSc source code, datasets, or model
 weights. The upstream MuSc implementation is also distributed under its own
 [MIT License](https://github.com/xrli-U/MuSc/blob/b76b93da8bd3096a99964a96ae29d46f197a0651/LICENSE),
-and datasets retain their own licenses and terms. The images in `docs/figures/`
-contain MVTec AD and VisA samples, so the MIT License does not cover them and
-they remain under their dataset terms.
+and datasets retain their own licenses and terms. Dataset-derived images in
+`docs/figures/`, `reports/`, and `slides/` contain MVTec AD and VisA samples,
+so the MIT License does not cover those images and they remain under their
+dataset terms.
