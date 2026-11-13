@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "runs": [
+    {
+      "run_id": "E01-mvtec-baseline",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "screw",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction.",
+      "sample_counts": {"total": 160},
+      "defect_types": ["good", "scratch_head", "scratch_neck", "thread_side", "thread_top"],
+      "ground_truth_available": true,
+      "required_artifacts": ["e01/mvtec_ad_reproduced.csv"],
+      "metrics": {
+        "image_auroc": 82.31194916991187,
+        "image_f1_max": 88.88888888888889,
+        "image_ap": 90.95118443925398,
+        "pixel_auroc": 98.76738203055838,
+        "pixel_f1_max": 41.87712044390199,
+        "pixel_ap": 36.11351775913153,
+        "aupro": 94.40129356392521
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E04Q-screw-top1",
+      "experiment_id": "E04Q",
+      "dataset": "mvtec_ad",
+      "category": "screw",
+      "timestamp": "2026-10-17T08:26:19+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Qualitative review of the top-1-percent pooling extension.",
+      "sample_counts": {"total": 160},
+      "defect_types": ["good", "scratch_neck"],
+      "ground_truth_available": true,
+      "required_artifacts": ["e04q/selected-qualitative-cases.csv"],
+      "metrics": {
+        "top1_image_auroc": 72.59684361549498,
+        "top1_image_f1_max": 85.6115107913669,
+        "top1_image_ap": 88.4927331579622
+      },
+      "examples": [
+        {
+          "image_id": "screw-good-003",
+          "source_name": "screw/good/003.png",
+          "defect_type": "good",
+          "role": "failure",
+          "raw_score": 0.585181798212395,
+          "adjusted_score": 0.2828223705291748,
+          "assets": {
+            "original": "e04q/screw-good-003/original.png",
+            "ground_truth": "e04q/screw-good-003/ground_truth.png",
+            "heatmap": "e04q/screw-good-003/heatmap.png",
+            "overlay": "e04q/screw-good-003/overlay.png"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "E02-visa-pcb1",
+      "experiment_id": "E02",
+      "dataset": "visa",
+      "category": "pcb1",
+      "timestamp": "2026-10-14T00:00:00+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "VisA reproduction entry with an unavailable external bundle.",
+      "sample_counts": {"total": 0},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": ["e02/visa-results.csv"],
+      "metrics": {},
+      "examples": []
+    }
+  ]
+}

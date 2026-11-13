@@ -33,11 +33,13 @@ optional E03 experiment was not run.
 configs/       Frozen baseline configuration and the E04Q fixed case plan
 docs/          English runbooks and reproducibility notes
 docs/figures/  Qualitative figures used in the report and presentation
-notebooks/     Executable E00 smoke-test notebook
+notebooks/     Executable reproduction and classroom notebooks
 patches/       Minimal changes applied to the pinned upstream revision
 scripts/       Category-level execution helper
-tests/         Tests for the post-processing tools
+tests/         Tests for the demo and post-processing tools
 tools/         Notebook build, case selection, summary, and figure utilities
+musc_demo/     Native Gradio classroom demo
+prepared/      Prepared-bundle schema and provenance guidance
 ```
 
 Datasets, pretrained weights, raw experiment archives, and credentials are not
@@ -55,6 +57,62 @@ timestamped directory in Google Drive.
 
 For a text version of the same procedure, see
 [`docs/E00_colab_runbook.md`](docs/E00_colab_runbook.md).
+
+## Classroom demo
+
+The native Gradio app makes the project boundary explicit before any live run.
+Its custom input is one **unlabeled set of 5-200 JPEG/PNG images from one
+industrial product category**, with 40-200 images recommended. The images
+should have a reasonably consistent viewpoint, scale, background, and lighting.
+The app validates file structure and count, but the presenter remains
+responsible for confirming the category and industrial domain.
+
+The custom-upload output is a relative anomaly score and ranking within that
+uploaded set, plus a heatmap and overlay for each image. It is not a calibrated
+defect label, a diagnosis, or a benchmark metric. The app has two independent
+modes:
+
+- **Prepared Benchmark** reads immutable artifacts from completed MVTec AD or
+  VisA runs and can show their recorded metrics and qualitative examples.
+- **Live Inference** runs the pinned MuSc pipeline on a newly uploaded,
+  unlabeled image set when a compatible CUDA GPU and model weights are
+  available.
+
+Open the classroom launcher in Colab:
+
+[![Open MuSc Classroom Demo in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/DiiKhanh/cs2203-musc-reproduction/blob/master/notebooks/MuSc_classroom_demo.ipynb)
+
+A Vietnamese setup version is available as
+[`notebooks/MuSc_classroom_demo_vi.ipynb`](notebooks/MuSc_classroom_demo_vi.ipynb),
+with its editable source in
+[`docs/musc_demo_colab_runbook_vi.md`](docs/musc_demo_colab_runbook_vi.md).
+
+The private repository requires a read-only `GITHUB_TOKEN` stored in Colab
+Secrets. Prepared Benchmark additionally requires an external bundle whose root
+contains `manifest.json`; set `MUSC_PREPARED_ROOT` to that mounted directory.
+The expected bundle structure is documented in
+[`prepared/README.md`](prepared/README.md). Full setup, commit verification,
+fallback behavior, and launch instructions are in
+[`docs/musc_demo_colab_runbook.md`](docs/musc_demo_colab_runbook.md).
+
+Before classroom use, complete the remaining Tesla T4 and external-artifact
+gates in [`docs/musc_demo_verification.md`](docs/musc_demo_verification.md).
+The presentation sequence, scope statement, new-batch decision rule, and
+fallback actions are in
+[`docs/musc_demo_presentation_checklist.md`](docs/musc_demo_presentation_checklist.md).
+
+For a local prepared-only launch, install `requirements-demo.txt`, optionally
+set `MUSC_PREPARED_ROOT`, and run:
+
+```bash
+python -m musc_demo.app
+```
+
+Live Inference is scoped to industrial visual anomaly detection. It has not
+been validated for medical or dental images, must not be presented as a medical
+model, and must not be used for clinical decisions. A medical-domain study
+would require a suitable dataset, domain-specific protocol, labels, metrics,
+baselines, and validation beyond this course demo.
 
 ## Frozen baseline
 
@@ -163,7 +221,8 @@ python3 tools/render_slide_strips.py \
   --output docs/figures
 ```
 
-Run the tests for these tools with `python3 -m pytest tests`.
+Run the tests for these tools with
+`python3 -m pytest tests/test_qualitative_tools.py`.
 
 ## Primary references
 
