@@ -1,0 +1,30 @@
+{
+  "category": "transistor",
+  "image_count": 100,
+  "pixel_count_per_image": 268324,
+  "pool_fraction": 0.01,
+  "top_count": 2684,
+  "e04_scoring_seconds": 126.46720027923584,
+  "variants": {
+    "max_raw": {
+      "auroc_sp": 97.70833333333334,
+      "f1_sp": 89.65517241379311,
+      "ap_sp": 96.9353766783137
+    },
+    "max_rscin": {
+      "auroc_sp": 99.29166666666667,
+      "f1_sp": 94.73684210526316,
+      "ap_sp": 99.01939530511908
+    },
+    "top1_raw": {
+      "auroc_sp": 98.125,
+      "f1_sp": 90.9090909090909,
+      "ap_sp": 97.55847219508446
+    },
+    "top1_rscin": {
+      "auroc_sp": 98.83333333333333,
+      "f1_sp": 95.0,
+      "ap_sp": 98.26211302408245
+    }
+  }
+}

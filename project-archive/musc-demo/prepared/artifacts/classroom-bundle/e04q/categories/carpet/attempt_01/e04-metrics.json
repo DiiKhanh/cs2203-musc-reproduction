@@ -1,0 +1,30 @@
+{
+  "category": "carpet",
+  "image_count": 117,
+  "pixel_count_per_image": 268324,
+  "pool_fraction": 0.01,
+  "top_count": 2684,
+  "e04_scoring_seconds": 138.29094886779785,
+  "variants": {
+    "max_raw": {
+      "auroc_sp": 99.47833065810595,
+      "f1_sp": 99.44134078212291,
+      "ap_sp": 99.82576397239146
+    },
+    "max_rscin": {
+      "auroc_sp": 99.87961476725522,
+      "f1_sp": 99.44134078212291,
+      "ap_sp": 99.96212280614505
+    },
+    "top1_raw": {
+      "auroc_sp": 100.0,
+      "f1_sp": 100.0,
+      "ap_sp": 100.0
+    },
+    "top1_rscin": {
+      "auroc_sp": 100.0,
+      "f1_sp": 100.0,
+      "ap_sp": 100.0
+    }
+  }
+}

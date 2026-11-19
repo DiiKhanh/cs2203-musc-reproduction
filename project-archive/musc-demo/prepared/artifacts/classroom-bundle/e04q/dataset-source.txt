@@ -1,0 +1,3 @@
+source=huggingface:micguida1/mvtech_anomaly_detection@eb692b36147a3b3f12c561b879a062104c1f20b8
+archive=mvtec_anomaly_detection.tar.xz
+resolved_root=/content/data

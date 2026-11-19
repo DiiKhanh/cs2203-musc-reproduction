@@ -1,0 +1,37 @@
+{
+  "backbone_name": "ViT-L-14-336",
+  "batch_size": 4,
+  "categories": [
+    "carpet",
+    "transistor",
+    "screw"
+  ],
+  "dataset_name": "mvtec_ad",
+  "divide_num": 1,
+  "experiment_id": "E04Q",
+  "feature_layers": [
+    5,
+    11,
+    17,
+    23
+  ],
+  "img_resize": 518,
+  "pool_fraction": 0.01,
+  "pretrained": "openai",
+  "r_list": [
+    1,
+    3,
+    5
+  ],
+  "selection_frozen_before_heatmap_review": true,
+  "source_e04_run_id": "20261016_102025_E04_mvtec_top1_pooling",
+  "upstream_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+  "variants": [
+    "max_raw",
+    "max_rscin",
+    "top1_raw",
+    "top1_rscin"
+  ],
+  "vis": true,
+  "vis_type": "whole_norm"
+}

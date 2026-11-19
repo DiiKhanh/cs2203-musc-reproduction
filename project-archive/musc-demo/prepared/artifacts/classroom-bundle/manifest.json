@@ -1,0 +1,594 @@
+{
+  "schema_version": 1,
+  "runs": [
+    {
+      "run_id": "E01-mvtec-bottle",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "bottle",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 99.92063492063492,
+        "image_f1_max": 99.21259842519686,
+        "image_ap": 99.97519841269839,
+        "pixel_auroc": 98.47773380618383,
+        "pixel_f1_max": 79.1739992895171,
+        "pixel_ap": 83.04497992850604,
+        "aupro": 96.10450992045675
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-cable",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "cable",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 98.93178410794603,
+        "image_f1_max": 97.2972972972973,
+        "image_ap": 99.38643724385663,
+        "pixel_auroc": 95.76071321843106,
+        "pixel_f1_max": 60.96566355976714,
+        "pixel_ap": 57.6944743779496,
+        "aupro": 89.61569021650229
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-capsule",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "capsule",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 96.68927004387714,
+        "image_f1_max": 95.69377990430623,
+        "image_ap": 99.3477068927679,
+        "pixel_auroc": 98.95641502021908,
+        "pixel_f1_max": 49.80067582654777,
+        "pixel_ap": 48.50071785827971,
+        "aupro": 95.56377655813637
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-carpet",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "carpet",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 99.87961476725522,
+        "image_f1_max": 99.44134078212291,
+        "image_ap": 99.96212280614505,
+        "pixel_auroc": 99.45378927878332,
+        "pixel_f1_max": 73.33083497061787,
+        "pixel_ap": 76.05241569656414,
+        "aupro": 97.58188582585726
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-grid",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "grid",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 98.66332497911445,
+        "image_f1_max": 96.49122807017544,
+        "image_ap": 99.53719237757008,
+        "pixel_auroc": 98.16163165994136,
+        "pixel_f1_max": 43.93375074058527,
+        "pixel_ap": 38.23680227345956,
+        "aupro": 93.91373091745687
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-hazelnut",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "hazelnut",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 99.60714285714285,
+        "image_f1_max": 98.55072463768116,
+        "image_ap": 99.79069294858765,
+        "pixel_auroc": 99.37566973259095,
+        "pixel_f1_max": 73.40979948473672,
+        "pixel_ap": 73.2889203604053,
+        "aupro": 92.23000681700603
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-leather",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "leather",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 100.0,
+        "image_f1_max": 100.0,
+        "image_ap": 100.0,
+        "pixel_auroc": 99.71701197533282,
+        "pixel_f1_max": 62.84503450345035,
+        "pixel_ap": 64.47253044672172,
+        "aupro": 98.73447938537123
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-metal_nut",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "metal_nut",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 96.57869012707722,
+        "image_f1_max": 97.38219895287958,
+        "image_ap": 99.14620906286682,
+        "pixel_auroc": 86.1193332771259,
+        "pixel_f1_max": 46.22093524039843,
+        "pixel_ap": 47.53915736314791,
+        "aupro": 89.34350374175088
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-pill",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "pill",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 96.126568466994,
+        "image_f1_max": 95.8904109589041,
+        "image_ap": 99.28872170428272,
+        "pixel_auroc": 97.47337235285349,
+        "pixel_f1_max": 65.53181579286927,
+        "pixel_ap": 67.24738352550354,
+        "aupro": 98.00798824895442
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-screw",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "screw",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 82.31194916991187,
+        "image_f1_max": 88.88888888888889,
+        "image_ap": 90.95118443925398,
+        "pixel_auroc": 98.76738203055838,
+        "pixel_f1_max": 41.87712044390199,
+        "pixel_ap": 36.11351775913153,
+        "aupro": 94.40129356392521
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-tile",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "tile",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 100.0,
+        "image_f1_max": 100.0,
+        "image_ap": 99.99999999999997,
+        "pixel_auroc": 97.8979262030861,
+        "pixel_f1_max": 74.7155228001354,
+        "pixel_ap": 78.90004422984691,
+        "aupro": 94.6471516797876
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-toothbrush",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "toothbrush",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 100.0,
+        "image_f1_max": 100.0,
+        "image_ap": 99.99999999999999,
+        "pixel_auroc": 99.5344999063863,
+        "pixel_f1_max": 70.19052788331733,
+        "pixel_ap": 67.78771465084613,
+        "aupro": 95.47800178712464
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-transistor",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "transistor",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 99.29166666666667,
+        "image_f1_max": 94.73684210526316,
+        "image_ap": 99.01939530511908,
+        "pixel_auroc": 91.38139171665955,
+        "pixel_f1_max": 59.24202810806772,
+        "pixel_ap": 58.40808806863419,
+        "aupro": 77.2086617905806
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-wood",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "wood",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 98.50877192982456,
+        "image_f1_max": 98.33333333333333,
+        "image_ap": 99.52476218906233,
+        "pixel_auroc": 97.23455411884375,
+        "pixel_f1_max": 68.64316925845006,
+        "pixel_ap": 74.74864447317871,
+        "aupro": 94.50110880121233
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E01-mvtec-zipper",
+      "experiment_id": "E01",
+      "dataset": "mvtec_ad",
+      "category": "zipper",
+      "timestamp": "2026-10-12T07:48:56+07:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Complete MVTec AD baseline reproduction for this category. Metrics come only from the accepted E01 quantitative artifact.",
+      "sample_counts": {},
+      "defect_types": [],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e01/mvtec_ad_reproduced.csv"
+      ],
+      "metrics": {
+        "image_auroc": 99.50105042016807,
+        "image_f1_max": 99.16666666666667,
+        "image_ap": 99.86241132164085,
+        "pixel_auroc": 98.40443254232443,
+        "pixel_f1_max": 62.48868883268754,
+        "pixel_ap": 61.89072027731357,
+        "aupro": 94.46261580120776
+      },
+      "examples": []
+    },
+    {
+      "run_id": "E04Q-mvtec-carpet-top1",
+      "experiment_id": "E04Q",
+      "dataset": "mvtec_ad",
+      "category": "carpet",
+      "timestamp": "2026-10-17T09:05:38.815666+00:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Selected qualitative cases for top-1-percent pooling, reproduced from source E04 run 20261016_102025_E04_mvtec_top1_pooling. Example scores are top1_raw and top1_rscin.",
+      "sample_counts": {
+        "total": 117
+      },
+      "defect_types": [
+        "color",
+        "good",
+        "metal_contamination"
+      ],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e04q/selected-assets-index.csv",
+        "e04q/e04q-config.json",
+        "e04q/categories/carpet/attempt_01/e04-metrics.json"
+      ],
+      "metrics": {
+        "top1_rscin_image_auroc": 100.0,
+        "top1_rscin_image_f1_max": 100.0,
+        "top1_rscin_image_ap": 100.0
+      },
+      "examples": [
+        {
+          "image_id": "carpet-good-019",
+          "source_name": "carpet/good/019.png",
+          "defect_type": "good",
+          "role": "resolved_fp_both",
+          "raw_score": 0.4871509472378058,
+          "adjusted_score": 0.1175513491034507,
+          "assets": {
+            "original": "e04q/selected-assets/carpet__good__019/original.png",
+            "ground_truth": "e04q/selected-assets/carpet__good__019/ground_truth.png",
+            "heatmap": "e04q/selected-assets/carpet__good__019/heatmap.png",
+            "overlay": "e04q/selected-assets/carpet__good__019/overlay.png"
+          }
+        },
+        {
+          "image_id": "carpet-metal_contamination-013",
+          "source_name": "carpet/metal_contamination/013.png",
+          "defect_type": "metal_contamination",
+          "role": "large_anomaly_rank_drop",
+          "raw_score": 0.6159163902759962,
+          "adjusted_score": 0.4705447256565094,
+          "assets": {
+            "original": "e04q/selected-assets/carpet__metal_contamination__013/original.png",
+            "ground_truth": "e04q/selected-assets/carpet__metal_contamination__013/ground_truth.png",
+            "heatmap": "e04q/selected-assets/carpet__metal_contamination__013/heatmap.png",
+            "overlay": "e04q/selected-assets/carpet__metal_contamination__013/overlay.png"
+          }
+        },
+        {
+          "image_id": "carpet-color-013",
+          "source_name": "carpet/color/013.png",
+          "defect_type": "color",
+          "role": "large_anomaly_rank_drop",
+          "raw_score": 0.7214193528933618,
+          "adjusted_score": 0.6308472752571106,
+          "assets": {
+            "original": "e04q/selected-assets/carpet__color__013/original.png",
+            "ground_truth": "e04q/selected-assets/carpet__color__013/ground_truth.png",
+            "heatmap": "e04q/selected-assets/carpet__color__013/heatmap.png",
+            "overlay": "e04q/selected-assets/carpet__color__013/overlay.png"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "E04Q-mvtec-transistor-top1",
+      "experiment_id": "E04Q",
+      "dataset": "mvtec_ad",
+      "category": "transistor",
+      "timestamp": "2026-10-17T09:05:38.815666+00:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Selected qualitative cases for top-1-percent pooling, reproduced from source E04 run 20261016_102025_E04_mvtec_top1_pooling. Example scores are top1_raw and top1_rscin.",
+      "sample_counts": {
+        "total": 100
+      },
+      "defect_types": [
+        "cut_lead",
+        "good"
+      ],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e04q/selected-assets-index.csv",
+        "e04q/e04q-config.json",
+        "e04q/categories/transistor/attempt_01/e04-metrics.json"
+      ],
+      "metrics": {
+        "top1_rscin_image_auroc": 98.83333333333333,
+        "top1_rscin_image_f1_max": 95.0,
+        "top1_rscin_image_ap": 98.26211302408245
+      },
+      "examples": [
+        {
+          "image_id": "transistor-good-022",
+          "source_name": "transistor/good/022.png",
+          "defect_type": "good",
+          "role": "resolved_fp_raw_largest_drop",
+          "raw_score": 0.4893637683304068,
+          "adjusted_score": 0.0753997191786766,
+          "assets": {
+            "original": "e04q/selected-assets/transistor__good__022/original.png",
+            "ground_truth": "e04q/selected-assets/transistor__good__022/ground_truth.png",
+            "heatmap": "e04q/selected-assets/transistor__good__022/heatmap.png",
+            "overlay": "e04q/selected-assets/transistor__good__022/overlay.png"
+          }
+        },
+        {
+          "image_id": "transistor-good-001",
+          "source_name": "transistor/good/001.png",
+          "defect_type": "good",
+          "role": "new_fp_both",
+          "raw_score": 0.5735411019663283,
+          "adjusted_score": 0.3143738806247711,
+          "assets": {
+            "original": "e04q/selected-assets/transistor__good__001/original.png",
+            "ground_truth": "e04q/selected-assets/transistor__good__001/ground_truth.png",
+            "heatmap": "e04q/selected-assets/transistor__good__001/heatmap.png",
+            "overlay": "e04q/selected-assets/transistor__good__001/overlay.png"
+          }
+        },
+        {
+          "image_id": "transistor-cut_lead-001",
+          "source_name": "transistor/cut_lead/001.png",
+          "defect_type": "cut_lead",
+          "role": "large_anomaly_rank_drop",
+          "raw_score": 0.5397246351096527,
+          "adjusted_score": 0.2424080967903137,
+          "assets": {
+            "original": "e04q/selected-assets/transistor__cut_lead__001/original.png",
+            "ground_truth": "e04q/selected-assets/transistor__cut_lead__001/ground_truth.png",
+            "heatmap": "e04q/selected-assets/transistor__cut_lead__001/heatmap.png",
+            "overlay": "e04q/selected-assets/transistor__cut_lead__001/overlay.png"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "E04Q-mvtec-screw-top1",
+      "experiment_id": "E04Q",
+      "dataset": "mvtec_ad",
+      "category": "screw",
+      "timestamp": "2026-10-17T09:05:38.815666+00:00",
+      "source_commit": "b76b93da8bd3096a99964a96ae29d46f197a0651",
+      "description": "Selected qualitative cases for top-1-percent pooling, reproduced from source E04 run 20261016_102025_E04_mvtec_top1_pooling. Example scores are top1_raw and top1_rscin.",
+      "sample_counts": {
+        "total": 160
+      },
+      "defect_types": [
+        "good",
+        "scratch_neck"
+      ],
+      "ground_truth_available": true,
+      "required_artifacts": [
+        "e04q/selected-assets-index.csv",
+        "e04q/e04q-config.json",
+        "e04q/categories/screw/attempt_01/e04-metrics.json"
+      ],
+      "metrics": {
+        "top1_rscin_image_auroc": 72.59684361549498,
+        "top1_rscin_image_f1_max": 85.6115107913669,
+        "top1_rscin_image_ap": 88.4927331579622
+      },
+      "examples": [
+        {
+          "image_id": "screw-good-008",
+          "source_name": "screw/good/008.png",
+          "defect_type": "good",
+          "role": "new_fp_raw_largest_adverse_change",
+          "raw_score": 0.5986454012547131,
+          "adjusted_score": 0.3761222064495086,
+          "assets": {
+            "original": "e04q/selected-assets/screw__good__008/original.png",
+            "ground_truth": "e04q/selected-assets/screw__good__008/ground_truth.png",
+            "heatmap": "e04q/selected-assets/screw__good__008/heatmap.png",
+            "overlay": "e04q/selected-assets/screw__good__008/overlay.png"
+          }
+        },
+        {
+          "image_id": "screw-good-003",
+          "source_name": "screw/good/003.png",
+          "defect_type": "good",
+          "role": "new_fp_rscin_largest_adverse_change",
+          "raw_score": 0.585181798212395,
+          "adjusted_score": 0.2828223705291748,
+          "assets": {
+            "original": "e04q/selected-assets/screw__good__003/original.png",
+            "ground_truth": "e04q/selected-assets/screw__good__003/ground_truth.png",
+            "heatmap": "e04q/selected-assets/screw__good__003/heatmap.png",
+            "overlay": "e04q/selected-assets/screw__good__003/overlay.png"
+          }
+        },
+        {
+          "image_id": "screw-scratch_neck-000",
+          "source_name": "screw/scratch_neck/000.png",
+          "defect_type": "scratch_neck",
+          "role": "largest_rscin_anomaly_rank_drop",
+          "raw_score": 0.6019071379716621,
+          "adjusted_score": 0.288510799407959,
+          "assets": {
+            "original": "e04q/selected-assets/screw__scratch_neck__000/original.png",
+            "ground_truth": "e04q/selected-assets/screw__scratch_neck__000/ground_truth.png",
+            "heatmap": "e04q/selected-assets/screw__scratch_neck__000/heatmap.png",
+            "overlay": "e04q/selected-assets/screw__scratch_neck__000/overlay.png"
+          }
+        }
+      ]
+    }
+  ]
+}

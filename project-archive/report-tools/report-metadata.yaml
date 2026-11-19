@@ -1,0 +1,20 @@
+title: "Tái hiện phương pháp MuSc cho phát hiện và phân vùng bất thường zero-shot trên ảnh công nghiệp"
+author: "Phạm Duy Khánh - 26848096"
+date: "02/11/2026"
+lang: vi
+toc-title: "Mục lục"
+papersize: a4
+fontsize: 11pt
+geometry:
+  - margin=2.5cm
+mainfont: Arial
+sansfont: Arial
+monofont: Menlo
+colorlinks: true
+linkcolor: NavyBlue
+urlcolor: NavyBlue
+header-includes: |
+  ```{=latex}
+  \usepackage{float}
+  \floatplacement{figure}{H}
+  ```

@@ -31,3 +31,7 @@ prepared/manifest.json
 # Retain documentation and schema examples for external prepared bundles
 !prepared/README.md
 !prepared/manifest.example.json
+
+# Retain the selected immutable experiment exports and classroom evidence
+!project-archive/artifacts/**/*.csv
+!project-archive/artifacts/**/*.zip

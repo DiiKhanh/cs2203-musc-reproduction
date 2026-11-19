@@ -1,0 +1,32 @@
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+.env
+
+# Large or externally licensed artifacts
+data/
+datasets/
+weights/
+runs/
+outputs/
+output/
+test-output/
+live-uploads/
+tmp-runs/
+exports/
+prepared/artifacts/
+prepared/manifest.json
+*.xlsx
+*.csv
+*.log
+*.pt
+*.pth
+*.ckpt
+*.tar
+*.tar.*
+*.zip
+
+# Retain documentation and schema examples for external prepared bundles
+!prepared/README.md
+!prepared/manifest.example.json

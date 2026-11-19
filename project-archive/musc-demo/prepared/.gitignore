@@ -1,0 +1,5 @@
+# Preserve the selected evidence despite the historical demo's ignore rules.
+!artifacts/
+!artifacts/classroom-bundle/
+!artifacts/classroom-bundle/**
+!artifacts/musc-classroom-prepared-bundle.zip

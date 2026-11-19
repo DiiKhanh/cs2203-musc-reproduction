@@ -1,0 +1,15 @@
+{
+  "run_id": "20261017_082619_E04Q_mvtec_pooling_qualitative",
+  "source_e04_run_id": "20261016_102025_E04_mvtec_top1_pooling",
+  "completed_at_utc": "2026-10-17T09:05:38.815666+00:00",
+  "categories": [
+    "carpet",
+    "transistor",
+    "screw"
+  ],
+  "heatmap_count": 377,
+  "selected_case_count": 9,
+  "max_absolute_metric_delta_from_e04": 1.4210854715202004e-14,
+  "max_absolute_per_image_score_delta_from_e04": 0.0,
+  "status": "panels_generated_review_pending"
+}

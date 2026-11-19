@@ -116,8 +116,12 @@ python3 tools/render_slide_strips.py --source "$RUNS" --output docs/figures
 ## Verification status
 
 The accepted results came from Google Colab notebooks that added Google Drive
-storage and resume handling around these steps. Those wrappers are not part of
-this package.
+storage and resume handling around these steps. The original notebook exports,
+including the combined E01/E01Q and E04/E04Q workflows, are preserved under
+[`notebooks/colab-archives/`](../notebooks/colab-archives/). The original dated
+guides and result exports are retained under
+[`project-archive/`](../project-archive/); the experiment index is in the
+[README](../README.md#colab-experiment-notebooks-and-project-archive).
 
 Checked offline against the archived run outputs:
 

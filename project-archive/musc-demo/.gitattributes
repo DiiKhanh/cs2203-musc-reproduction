@@ -1,0 +1,3 @@
+# The pinned upstream Python files use CRLF. Preserve patch bytes and do not
+# interpret carriage returns in unified-diff context as trailing whitespace.
+*.patch -text -whitespace

@@ -1,0 +1,1 @@
+"""MuSc classroom demo package."""
